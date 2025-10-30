@@ -20,18 +20,18 @@ export default function Dashboard() {
 
         // Ambil total pelamar
         const { count: totalPelamar } = await supabase
-          .from("pelamar")
+          .from("applier")
           .select("*", { count: "exact" });
 
         // Ambil lamaran aktif
         const { count: lamaranAktif } = await supabase
-          .from("lamaran")
+          .from("applier")
           .select("*", { count: "exact" })
           .eq("status", "Aktif");
 
         // Ambil lamaran ditolak
         const { count: lamaranDitolak } = await supabase
-          .from("lamaran")
+          .from("applier")
           .select("*", { count: "exact" })
           .eq("status", "Ditolak");
 

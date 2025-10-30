@@ -67,11 +67,10 @@ export default function AdminLayout({ children }) {
   return (
     <div className="min-h-screen bg-gray-50">
       <nav className="bg-blue-700 text-white px-6 py-4 flex justify-between items-center shadow-md">
-        <h1 className="text-xl font-semibold">🎓 Admin Career Yahya</h1>
+        <Link href="/admin/dashboard" className="">
+          <h1 className="text-xl font-semibold">🎓 Admin Career Yahya</h1>
+        </Link>
         <div className="space-x-4">
-          <Link href="/admin/dashboard" className="hover:underline">
-            Dashboard
-          </Link>
           <Link href="/admin/jobs/new" className="hover:underline">
             Tambah Lowongan
           </Link>

@@ -18,21 +18,6 @@ export default function NavbarGlobal() {
       >
         🎓 <span>Yahya Career</span>
       </Link>
-
-      <div className="space-x-3">
-        <Link
-          href="/signin"
-          className="text-gray-700 hover:text-blue-700 font-medium transition"
-        >
-          Sign In
-        </Link>
-        <Link
-          href="/signup"
-          className="bg-blue-600 text-white px-4 py-1.5 rounded-lg hover:bg-blue-700 transition"
-        >
-          Sign Up
-        </Link>
-      </div>
     </nav>
   );
 }

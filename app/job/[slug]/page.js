@@ -27,6 +27,17 @@ export default async function JobDetail({ params }) {
       <p className="text-gray-700 mb-6">{job.description}</p>
       <h2 className="font-semibold mb-2">Persyaratan:</h2>
       <p className="text-gray-600 whitespace-pre-line">{job.requirements}</p>
+
+      <div className="text-center">
+        <a
+          href={`/job/${job.slug}/apply`}
+          target="_blank"
+          rel="noopener noreferrer"
+          className="inline-block bg-blue-600 hover:bg-blue-700 text-white font-medium py-3 px-6 rounded-lg transition"
+        >
+          Lamar Sekarang
+        </a>
+      </div>
     </div>
   );
 }

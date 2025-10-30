@@ -24,27 +24,6 @@ export default function HomePage() {
 
   return (
     <div className="min-h-screen flex flex-col bg-gray-50">
-      {/* ===== Navbar ===== */}
-      <nav className="bg-white border-b border-gray-200 py-4 px-6 flex justify-between items-center sticky top-0 z-10 backdrop-blur-md">
-        <Link href="/" className="text-xl font-semibold text-blue-700">
-          🎓 Yahya Career
-        </Link>
-        <div className="space-x-3">
-          <Link
-            href="/signin"
-            className="text-gray-700 hover:text-blue-700 font-medium"
-          >
-            Sign In
-          </Link>
-          <Link
-            href="/signup"
-            className="bg-blue-600 text-white px-4 py-1.5 rounded-lg hover:bg-blue-700 transition"
-          >
-            Sign Up
-          </Link>
-        </div>
-      </nav>
-
       {/* ===== Main Content ===== */}
       <main className="flex-1 max-w-5xl mx-auto w-full px-6 py-10">
         <h1 className="text-3xl font-bold text-center mb-2 text-gray-900">
