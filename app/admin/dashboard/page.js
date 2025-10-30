@@ -1,8 +1,10 @@
 "use client";
 import { useEffect, useState } from "react";
+import { useRouter } from "next/navigation";
 import supabase from "@/lib/supabaseClient";
 
 export default function Dashboard() {
+  const router = useRouter();
   const [stats, setStats] = useState({
     totalLowongan: 0,
     totalPelamar: 0,
@@ -61,6 +63,7 @@ export default function Dashboard() {
       value: stats.totalPelamar,
       color: "bg-green-500",
       emoji: "🧑‍💼",
+      onClick: () => router.push("/admin/pelamar"), // 👈 klik ke daftar pelamar
     },
     {
       title: "Lamaran Aktif",
@@ -84,7 +87,12 @@ export default function Dashboard() {
         {cards.map((card, i) => (
           <div
             key={i}
-            className={`${card.color} text-white p-6 rounded-2xl shadow-md transition-transform hover:scale-105`}
+            onClick={card.onClick}
+            className={`${
+              card.color
+            } text-white p-6 rounded-2xl shadow-md transition-transform hover:scale-105 ${
+              card.onClick ? "cursor-pointer" : ""
+            }`}
           >
             <div className="flex items-center justify-between">
               <span className="text-4xl">{card.emoji}</span>

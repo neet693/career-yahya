@@ -1,5 +1,5 @@
 "use client";
-import { use, useState } from "react";
+import { use, useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import { motion, AnimatePresence } from "framer-motion";
 import supabase from "@/lib/supabaseClient";
@@ -9,6 +9,25 @@ export default function ApplyPage({ params }) {
   const router = useRouter();
   const [step, setStep] = useState(1);
   const [loading, setLoading] = useState(false);
+
+  const [job, setJob] = useState(null);
+
+  useEffect(() => {
+    async function fetchJob() {
+      const { data, error } = await supabase
+        .from("jobs")
+        .select("title, slug")
+        .eq("slug", slug)
+        .single();
+      if (error) {
+        console.error(error);
+      } else {
+        setJob(data);
+        setForm((prev) => ({ ...prev, posisi: data.title })); // tampilkan title
+      }
+    }
+    fetchJob();
+  }, [slug]);
 
   const [form, setForm] = useState({
     // Step 1
@@ -276,18 +295,14 @@ export default function ApplyPage({ params }) {
                   value={form.ipk}
                   onChange={handleChange}
                 />
-                <input
+                <Input
+                  label="Tahun Lulus"
                   type="number"
                   name="tahun_lulus"
-                  value={formData.tahun_lulus}
-                  onChange={(e) => {
-                    const val = e.target.value.replace(/\D/g, ""); // hanya angka
-                    setFormData({ ...formData, tahun_lulus: val });
-                  }}
+                  value={form.tahun_lulus}
+                  onChange={handleChange}
                   min="1900"
                   max={new Date().getFullYear()}
-                  placeholder="Tahun Lulus (contoh: 2022)"
-                  className="input"
                 />
               </>
             )}
@@ -412,21 +427,18 @@ export default function ApplyPage({ params }) {
                 <Input
                   label="Posisi"
                   name="posisi"
-                  value={form.posisi}
+                  value={job?.title || "Loading..."}
                   readOnly
                 />
-                <input
+                <Input
+                  label="Gaji Harapan"
                   type="number"
                   name="gaji_harapan"
-                  value={formData.gaji_harapan}
-                  onChange={(e) => {
-                    const val = e.target.value.replace(/\D/g, "");
-                    setFormData({ ...formData, gaji_harapan: val });
-                  }}
+                  value={form.gaji_harapan}
+                  onChange={handleChange}
                   min="0"
                   step="500000"
                   placeholder="Gaji Harapan (contoh: 5000000)"
-                  className="input"
                 />
 
                 <Input
