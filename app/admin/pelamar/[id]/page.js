@@ -199,7 +199,7 @@ export default function DetailPelamar() {
 }
 
 const Row = ({ label, value }) => (
-  <p className="flex justify-between border-b py-1">
+  <p className="flex justify-between py-1">
     <span className="font-medium text-gray-700">{label}:</span>
     <span className="text-gray-800">{value || "-"}</span>
   </p>

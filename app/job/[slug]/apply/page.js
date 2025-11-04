@@ -68,7 +68,6 @@ export default function ApplyPage({ params }) {
     nilai_kristen: "",
     // Step 6
     posisi: slug,
-    gaji_harapan: "",
     tanggal_siap: "",
     // Step 7
     alasan_bergabung: "",
@@ -430,17 +429,6 @@ export default function ApplyPage({ params }) {
                   value={job?.title || "Loading..."}
                   readOnly
                 />
-                <Input
-                  label="Gaji Harapan"
-                  type="number"
-                  name="gaji_harapan"
-                  value={form.gaji_harapan}
-                  onChange={handleChange}
-                  min="0"
-                  step="500000"
-                  placeholder="Gaji Harapan (contoh: 5000000)"
-                />
-
                 <Input
                   label="Tanggal Siap Bekerja"
                   type="date"

@@ -1,13 +1,15 @@
 "use client";
-import { useState, useEffect } from "react";
+import { useState, useEffect, use } from "react";
 import { useRouter } from "next/navigation";
 import supabase from "@/lib/supabaseClient";
 
-export default function NewJobPage() {
+export default function EditJobPage({ params }) {
+  // ✅ Di Next.js 15 params adalah Promise → gunakan React.use() untuk unwrap
+  const { slug } = use(params);
   const router = useRouter();
 
   const [title, setTitle] = useState("");
-  const [slug, setSlug] = useState("");
+  const [slugValue, setSlugValue] = useState("");
   const [description, setDescription] = useState("");
   const [requirements, setRequirements] = useState("");
   const [department, setDepartment] = useState("");
@@ -15,59 +17,74 @@ export default function NewJobPage() {
   const [active, setActive] = useState(true);
   const [loading, setLoading] = useState(false);
 
-  // 🔤 Otomatis generate slug dari title
+  // 🔁 Ambil data awal berdasarkan slug
+  useEffect(() => {
+    async function fetchJob() {
+      const { data, error } = await supabase
+        .from("jobs")
+        .select("*")
+        .eq("slug", slug)
+        .maybeSingle();
+
+      if (error) {
+        alert("❌ Gagal memuat data: " + error.message);
+        return;
+      }
+
+      if (data) {
+        setTitle(data.title);
+        setSlugValue(data.slug);
+        setDescription(data.description || "");
+        setRequirements(data.requirements || "");
+        setDepartment(data.department || "");
+        setLocation(data.location || "");
+        setActive(data.active);
+      }
+    }
+
+    if (slug) fetchJob();
+  }, [slug]);
+
+  // 🔤 Auto generate slug dari title
   useEffect(() => {
     const generatedSlug = title
       .toLowerCase()
       .replace(/[^\w\s-]/g, "")
       .trim()
       .replace(/\s+/g, "-");
-    setSlug(generatedSlug);
+    setSlugValue(generatedSlug);
   }, [title]);
 
   async function handleSubmit(e) {
     e.preventDefault();
     setLoading(true);
 
-    // 🔍 Cek slug duplikat
-    const { data: existing } = await supabase
+    const { error } = await supabase
       .from("jobs")
-      .select("id")
-      .eq("slug", slug)
-      .maybeSingle();
-
-    if (existing) {
-      alert("Slug sudah digunakan. Ubah judul agar slug unik.");
-      setLoading(false);
-      return;
-    }
-
-    // 🧾 Simpan ke database
-    const { error } = await supabase.from("jobs").insert([
-      {
+      .update({
         title,
-        slug,
+        slug: slugValue,
         description,
         requirements,
         department,
         location,
         active,
-      },
-    ]);
+      })
+      .eq("slug", slug);
 
     setLoading(false);
 
     if (error) {
-      alert("❌ Gagal menambahkan lowongan: " + error.message);
+      alert("❌ Gagal memperbarui lowongan: " + error.message);
     } else {
-      alert("✅ Lowongan berhasil ditambahkan!");
+      alert("✅ Lowongan berhasil diperbarui!");
       router.push("/admin/jobs");
     }
   }
 
   return (
     <div className="max-w-3xl mx-auto p-6 bg-white rounded-xl shadow-sm">
-      <h1 className="text-2xl font-bold mb-6">Tambah Lowongan Baru</h1>
+      <h1 className="text-2xl font-bold mb-6">Edit Lowongan</h1>
 
       <form onSubmit={handleSubmit} className="space-y-5">
         {/* Judul */}
@@ -88,7 +105,7 @@ export default function NewJobPage() {
           <label className="block font-semibold mb-1">Slug (otomatis)</label>
           <input
             type="text"
-            value={slug}
+            value={slugValue}
             readOnly
             className="w-full border p-2 rounded-lg bg-gray-100 text-gray-600"
           />
@@ -163,7 +180,7 @@ export default function NewJobPage() {
             loading ? "bg-gray-400" : "bg-blue-600 hover:bg-blue-700"
           }`}
         >
-          {loading ? "Menyimpan..." : "Simpan Lowongan"}
+          {loading ? "Menyimpan..." : "Perbarui Lowongan"}
         </button>
       </form>
     </div>

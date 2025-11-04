@@ -71,9 +71,6 @@ export default function AdminLayout({ children }) {
           <h1 className="text-xl font-semibold">🎓 Admin Career Yahya</h1>
         </Link>
         <div className="space-x-4">
-          <Link href="/admin/jobs/new" className="hover:underline">
-            Tambah Lowongan
-          </Link>
           <button
             onClick={handleLogout}
             className="bg-red-500 px-3 py-1 rounded hover:bg-red-600"

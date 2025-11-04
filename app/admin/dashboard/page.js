@@ -57,6 +57,7 @@ export default function Dashboard() {
       value: stats.totalLowongan,
       color: "bg-blue-500",
       emoji: "💼",
+      onClick: () => router.push("/admin/jobs"),
     },
     {
       title: "Total Pelamar",
