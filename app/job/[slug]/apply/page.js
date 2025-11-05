@@ -138,40 +138,14 @@ export default function ApplyPage({ params }) {
       },
     ]);
 
-    if (error) {
-      setLoading(false);
-      alert("❌ Gagal mengirim lamaran: " + error.message);
-      return;
-    }
-
-    // Kirim email setelah data berhasil disimpan
-    try {
-      const res = await fetch("/api/send-email", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          to: form.email,
-          name: form.nama,
-        }),
-      });
-
-      const result = await res.json();
-      if (result.success) {
-        alert(
-          "✅ Lamaran berhasil dikirim! Email konfirmasi telah dikirim ke " +
-            form.email
-        );
-      } else {
-        console.error(result.error);
-        alert("Lamaran tersimpan, tapi email gagal dikirim.");
-      }
-    } catch (err) {
-      console.error("Email error:", err);
-      alert("Lamaran tersimpan, tapi email gagal dikirim.");
-    }
-
     setLoading(false);
-    router.push("/terima-kasih");
+
+    if (error) {
+      alert("❌ Gagal mengirim lamaran: " + error.message);
+    } else {
+      alert("✅ Lamaran berhasil dikirim!");
+      router.push("/terima-kasih");
+    }
   }
 
   const steps = [
