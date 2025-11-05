@@ -15,6 +15,9 @@ const geistMono = Geist_Mono({
 export const metadata = {
   title: "Yahya Career",
   description: "Portal karier Yahya - Temukan dan kelola lowongan pekerjaan.",
+  icons: {
+    icon: "/favicon.ico", // ⬅️ Tambahkan baris ini
+  },
 };
 
 export default function RootLayout({ children }) {
