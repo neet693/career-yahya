@@ -18,18 +18,20 @@ export default function HomePage() {
       if (error) setError(error);
       else setJobs(data || []);
     }
-
     fetchJobs();
   }, []);
 
   return (
-    <div className="min-h-screen flex flex-col bg-gray-50">
-      {/* ===== Main Content ===== */}
-      <main className="flex-1 max-w-5xl mx-auto w-full px-6 py-10">
+    <div className="relative min-h-screen flex flex-col overflow-hidden">
+      {/* ✅ Background Sekolah */}
+      <div className="absolute inset-0 bg-sekolah bg-cover bg-center blur-[10px] scale-105 opacity-70"></div>
+
+      {/* ✅ Overlay Konten */}
+      <div className="relative z-10 flex-1 max-w-5xl mx-auto w-full px-6 py-10">
         <h1 className="text-3xl font-bold text-center mb-2 text-gray-900">
           Lowongan Pekerjaan
         </h1>
-        <p className="text-center text-gray-500 mb-10">
+        <p className="text-center text-gray-700 mb-10 font-medium">
           Sekolah Kristen Yahya membuka kesempatan bagi Anda yang ingin
           berkembang bersama kami.
         </p>
@@ -39,7 +41,7 @@ export default function HomePage() {
             Gagal memuat data lowongan: {error.message}
           </p>
         ) : jobs.length === 0 ? (
-          <p className="text-center text-gray-600">
+          <p className="text-center text-gray-800">
             Belum ada lowongan tersedia.
           </p>
         ) : (
@@ -48,12 +50,12 @@ export default function HomePage() {
               <Link
                 key={job.slug}
                 href={`/job/${job.slug}`}
-                className="block bg-white p-5 border border-gray-200 rounded-xl hover:shadow-md hover:border-blue-300 transition-all duration-200"
+                className="block bg-white/80 backdrop-blur-sm p-5 border border-gray-200 rounded-xl hover:shadow-md hover:border-blue-300 transition-all duration-200"
               >
                 <h3 className="text-lg font-semibold text-blue-700">
                   {job.title}
                 </h3>
-                <p className="text-gray-600 text-sm mt-2 line-clamp-2">
+                <p className="text-gray-700 text-sm mt-2 line-clamp-2">
                   {job.description}
                 </p>
                 <div className="flex justify-between items-center text-sm text-gray-500 mt-4">
@@ -66,12 +68,7 @@ export default function HomePage() {
             ))}
           </div>
         )}
-      </main>
-
-      {/* ===== Footer ===== */}
-      <footer className="bg-white border-t border-gray-200 py-6 text-center text-gray-500 text-sm">
-        © {new Date().getFullYear()} Sekolah Kristen Yahya — Career Portal
-      </footer>
+      </div>
     </div>
   );
 }
